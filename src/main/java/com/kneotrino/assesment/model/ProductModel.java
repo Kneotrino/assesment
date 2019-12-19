@@ -3,15 +3,11 @@ package com.kneotrino.assesment.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Entity
-@Table(name = "movie_details")
+@Table(name = "product")
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Builder(toBuilder = true)
@@ -29,51 +25,12 @@ public class ProductModel extends BaseModel {
       initialValue = 10_000)
   private Integer id;
 
+  @NotBlank
+  private String Name;
 
   @NotBlank
-  private String company;
+  private String Url;
 
-  @NotBlank
-  private String country;
-
-  @NotBlank
-  private String director;
-
-  @NotBlank
-  private String genre;
-
-  @NotBlank
-  private String name;
-
-  @NotBlank
-  private String rating;
-
-  @NotBlank
-  private String star;
-
-  @NotBlank
-  private String writer;
-
-  @Min(-1)
-  private Short runtime;
-
-  @Digits(integer = 8, fraction = 2)
-  @Min(-1)
-  private Float score;
-
-  @Min(1900)
-  @Max(2100)
-  private Short year;
-
-  @Min(-1)
-  private Integer votes;
-
-  @Digits(integer = 20, fraction = 2)
-  private BigDecimal gross;
-
-  @Digits(integer = 20, fraction = 2)
-  private BigDecimal budget;
-
-  private LocalDate released;
-
+  @Min(0)
+  private Long Price;
 }

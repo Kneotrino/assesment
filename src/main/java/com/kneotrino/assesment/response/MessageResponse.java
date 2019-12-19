@@ -1,15 +1,13 @@
 package com.kneotrino.assesment.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Data;
 
-@Data
-public class MessageResponse {
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
+public class MessageResponse<T> {
 
-  private String message;
+  public String message;
 
-  @JsonInclude(JsonInclude.Include.NON_NULL)
-  private String WebRequest;
+  public String WebRequest;
 
   public MessageResponse(String message) {
     this.message = message;
@@ -17,6 +15,6 @@ public class MessageResponse {
 
   public MessageResponse(String message, String webRequest) {
     this.message = message;
-    WebRequest = webRequest;
+    this.WebRequest = webRequest;
   }
 }
