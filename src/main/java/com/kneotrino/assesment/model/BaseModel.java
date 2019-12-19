@@ -1,23 +1,32 @@
 package com.kneotrino.assesment.model;
 
-import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.EntityListeners;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@Data
 public abstract class BaseModel implements Serializable {
 
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "created_at", nullable = false, updatable = false)
   @CreatedDate
-  private LocalDateTime created_at;
+  protected Date createdAt;
 
+  @Temporal(TemporalType.TIMESTAMP)
+  @Column(name = "updated_at", nullable = false)
   @LastModifiedDate
-  private LocalDateTime updated_at;
+  protected Date updatedAt;
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
 }

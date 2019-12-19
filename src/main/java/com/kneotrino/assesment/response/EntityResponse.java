@@ -11,5 +11,6 @@ public class EntityResponse<T> {
   public EntityResponse(String status, T result) {
     this.status = status;
     this.result = result;
+    this.error = "";
   }
 }

@@ -41,12 +41,12 @@ public class ProductController {
   }
 
   @GetMapping("/{id}")
-  public EntityResponse<ProductModel> getProductById(@PathVariable Integer id) {
+  public EntityResponse<ProductModel> getProductById(@PathVariable Long id) {
     return new EntityResponse(ResponseStatusEnum.OK.name(), productRepository.findById(id));
   }
 
   @DeleteMapping("/{id}")
-  public EntityResponse deleteProductById(@PathVariable Integer id) throws ResourceNotFoundException {
+  public EntityResponse deleteProductById(@PathVariable Long id) throws ResourceNotFoundException {
     return productRepository.findById(id)
         .map(question -> {
           productRepository.delete(question);
@@ -54,13 +54,13 @@ public class ProductController {
         }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + id));
   }
 
-  @PutMapping("/{id}")
-  public EntityResponse<ProductModel> updateProductById(@PathVariable Integer id,
-                                                        @Valid @RequestBody ProductModel ProductModel) throws ResourceNotFoundException {
-    ProductModel updated = productRepository.findById(id)
-        .map(model -> productRepository.save(ProductModel.toBuilder().id(id).build())).orElseThrow(() -> new ResourceNotFoundException("ProductModel not found with id " + id));
-    return new EntityResponse<>(ResponseStatusEnum.OK.name(), productRepository.findById(id).get());
-  }
+//  @PutMapping("/{id}")
+//  public EntityResponse<ProductModel> updateProductById(@PathVariable Long id,
+//                                                        @Valid @RequestBody ProductModel ProductModel) throws ResourceNotFoundException {
+//    ProductModel updated = productRepository.findById(id)
+//        .map(model -> productRepository.save(ProductModel.toBuilder().id(id).build())).orElseThrow(() -> new ResourceNotFoundException("ProductModel not found with id " + id));
+//    return new EntityResponse<>(ResponseStatusEnum.OK.name(), productRepository.findById(id).get());
+//  }
 
   @PostMapping("")
   public EntityResponse insertProduct(@Valid @RequestBody ProductModel ProductModel) {
