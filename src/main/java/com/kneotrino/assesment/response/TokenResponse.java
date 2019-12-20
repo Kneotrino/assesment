@@ -2,6 +2,7 @@ package com.kneotrino.assesment.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Kneotrino
@@ -9,6 +10,7 @@ import lombok.Data;
  */
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class TokenResponse {
   private String access_token;
 
