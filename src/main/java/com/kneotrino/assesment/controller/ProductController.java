@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -20,7 +21,7 @@ import javax.validation.Valid;
  */
 
 @RestController
-@RequestMapping("v1/products")
+@RequestMapping("/v1/products")
 public class ProductController {
 
   @Autowired
@@ -50,20 +51,24 @@ public class ProductController {
     return productRepository.findById(id)
         .map(question -> {
           productRepository.delete(question);
-          return new EntityResponse(ResponseStatusEnum.RESOURCE_NOT_FOUND.name(), "Deleted Product with id successfully");
+          return new EntityResponse(ResponseStatusEnum.OK.name(), "Deleted Product with id :: " + id + " successfully");
         }).orElseThrow(() -> new ResourceNotFoundException("Question not found with id " + id));
   }
 
-//  @PutMapping("/{id}")
-//  public EntityResponse<ProductModel> updateProductById(@PathVariable Long id,
-//                                                        @Valid @RequestBody ProductModel ProductModel) throws ResourceNotFoundException {
-//    ProductModel updated = productRepository.findById(id)
-//        .map(model -> productRepository.save(ProductModel.toBuilder().id(id).build())).orElseThrow(() -> new ResourceNotFoundException("ProductModel not found with id " + id));
-//    return new EntityResponse<>(ResponseStatusEnum.OK.name(), productRepository.findById(id).get());
-//  }
+  @ResponseStatus(HttpStatus.CREATED)
+  @PutMapping("/{id}")
+  public EntityResponse updateProductById(@PathVariable Long id,
+                                          @Valid @RequestBody ProductModel productRequest) throws ResourceNotFoundException {
+    ProductModel updated = productRepository.findById(id).map(
+        model -> productRepository.save(
+            productRequest.toBuilder().id(id).build()
+        )).orElseThrow(() -> new ResourceNotFoundException("ProductModel not found with id " + id));
+    return new EntityResponse(ResponseStatusEnum.OK.name(), productRepository.findById(id));
+  }
 
+  @ResponseStatus(HttpStatus.CREATED)
   @PostMapping("")
-  public EntityResponse insertProduct(@Valid @RequestBody ProductModel ProductModel) {
+  public EntityResponse createProduct(@Valid @RequestBody ProductModel ProductModel) {
     return new EntityResponse(ResponseStatusEnum.OK.name(), productRepository.save(ProductModel));
   }
 

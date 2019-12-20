@@ -7,14 +7,14 @@ public class MessageResponse<T> {
 
   public String message;
 
-  public String WebRequest;
+  public String phrase;
 
   public MessageResponse(String message) {
     this.message = message;
   }
 
-  public MessageResponse(String message, String webRequest) {
+  public MessageResponse(String message, String phrase) {
     this.message = message;
-    this.WebRequest = webRequest;
+    this.phrase = phrase;
   }
 }
